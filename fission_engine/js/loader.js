@@ -219,15 +219,15 @@
         bg: new Animation({
           xw: xw,
           yh: yh,
-          tile_x: chunk.meta.chunk_x,
-          tile_y: chunk.meta.chunk_y,
+          tile_x: chunk.meta.chunk_x * runtime.chunks.chunk_xw,
+          tile_y: chunk.meta.chunk_y * runtime.chunks.chunk_yh,
           gfx: scratch_bg,
         }),
         fg: new Animation({
           xw: xw,
           yh: yh,
-          tile_x: chunk.meta.chunk_x,
-          tile_y: chunk.meta.chunk_y,
+          tile_x: chunk.meta.chunk_x * runtime.chunks.chunk_xw,
+          tile_y: chunk.meta.chunk_y * runtime.chunks.chunk_yh,
           gfx: scratch_fg,
         }),
       }
