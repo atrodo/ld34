@@ -45,6 +45,7 @@
         upside_down: false,
         solid: true,
         reduce_momentum: true,
+        gravity: true,
         destroy_with_owner: true,
       },
     }, options, extra || {})
@@ -402,7 +403,6 @@
 
       frame: function()
       {
-
         var self = this
 
         var pos_info = { hit_floor: false }
@@ -410,7 +410,7 @@
 
         m_stats = $.extend(m_stats, {
           was_m: this.momentum_x != 0,
-          was_j: this.momentum_y != 0,
+          was_j: this.flags.gravity && this.momentum_y != 0,
         })
 
         var momentum_bounds = {
@@ -502,6 +502,7 @@
         // Handle all the momentums
         if (this.flags.reduce_momentum)
         {
+          // TODO: This all needs reworked to do gravity and everything better
           if (!this.next_frame.momentum_x)
           {
             if (pos_info.hit_floor)
@@ -534,22 +535,40 @@
           }
 
           var at_max_jump = this.current_j >= this.max_jump
-          if (!this.next_frame.momentum_y || at_max_jump)
+
+          if (this.flags.gravity)
           {
-            this.current_j = this.max_jump
-            this.momentum_y -= 1
-            this.momentum_y = min(this.momentum_y, momentum_bounds.max_momentum_y)
-            this.momentum_y = max(momentum_bounds.min_momentum_y, this.momentum_y)
+            if (!this.next_frame.momentum_y || at_max_jump)
+            {
+              this.current_j = this.max_jump
+              this.momentum_y -= 1
+              this.momentum_y = min(this.momentum_y, momentum_bounds.max_momentum_y)
+              this.momentum_y = max(momentum_bounds.min_momentum_y, this.momentum_y)
+            }
+            else
+            {
+              this.momentum_y += this.next_frame.momentum_y
+            }
           }
           else
           {
-            this.momentum_y += this.next_frame.momentum_y
+            var i = this.momentum_y
+            if (!this.next_frame.momentum_y)
+            {
+              this.momentum_y += this.momentum_y > 0 ? -1
+                               : this.momentum_y < 0 ? 1
+                               :                       0;
+            }
+            else
+            {
+              this.momentum_y += this.next_frame.momentum_y
+            }
           }
         }
 
         m_stats = $.extend(m_stats, {
           is_m: this.momentum_x != 0,
-          is_j: this.momentum_y != 0,
+          is_j: this.flags.graivty && this.momentum_y != 0,
         })
 
         if (!m_stats.was_m && m_stats.is_m)
@@ -582,7 +601,6 @@
         {
           this.ai();
         }
-
       }
     })
 
