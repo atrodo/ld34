@@ -62,9 +62,15 @@
           var y = anim.frame_y
 
           if (x == undefined && anim.tile_x != undefined)
+          {
             x = (anim.tile_x - cou.x) * runtime.tiles.tiles_xw
+            x += runtime.width * (1/2)
+          }
           if (y == undefined && anim.tile_y != undefined)
+          {
             y = (anim.tile_y - cou.y) * runtime.tiles.tiles_yh
+            y += runtime.height * (1/2)
+          }
 
           if (x == undefined)
             x = anim.x - cou.x
