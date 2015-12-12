@@ -566,11 +566,6 @@
 
         this.callback.frame.call(this)
 
-        if (this.ai != undefined)
-        {
-          this.ai();
-        }
-
         // Handle the sprite/frame
         this.animation.frame()
 
@@ -581,6 +576,11 @@
           max_momentum_x: false,
           min_momentum_y: false,
           max_momentum_y: false,
+        }
+
+        if (this.ai != undefined)
+        {
+          this.ai();
         }
 
       }
