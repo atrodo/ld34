@@ -27,12 +27,13 @@
       yh: 1,
 
       flip_xw: false,
-      center: 5,
+      center: null,
       trim_s: 0,
       trim_b: 0,
     }, options);
 
     var self = this;
+    var fix_center = this.center == null
 
     if (this.is_tile_sized)
     {
@@ -51,6 +52,9 @@
     if (this.gfx == undefined)
       this.gfx = new Gfx(this.xw, this.yh)
 
+    if (fix_center)
+      self.center = self.xw
+
     if (this.get_gfx == undefined)
     {
       if ($.type(this.img) != "string")
@@ -65,6 +69,8 @@
             self.xw = img.xw()
             self.yh = img.yh()
             self.gfx = new Gfx(self.xw, self.yh)
+            if (fix_center)
+              self.center = self.xw
           }
         )
 
