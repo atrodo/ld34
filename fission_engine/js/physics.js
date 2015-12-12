@@ -100,6 +100,18 @@
         return this.momentum_x != 0
       },
 
+      get_m_dir: function()
+      {
+        var dir = this.momentum_x;
+        if (this.flags.facing_left)
+          dir = -dir;
+
+        return ( dir < 0 ? 'l'
+               : dir > 0 ? 'r'
+               : null
+               )
+      },
+
       ultimate_owner: function()
       {
         var result = this.owner
