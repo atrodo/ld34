@@ -166,6 +166,8 @@
           // Converge to zero
           this.next_frame.momentum_x = (this.momentum_x < 0 ? 1 : -1)
         }
+
+        return;
       },
 
       add_momentum_j: function()
@@ -175,6 +177,68 @@
     })
 
     $.extend(this, {
+      set_momentum: function(dir, speed)
+      {
+        speed = speed || 1;
+        if (dir == "l")
+          return this.set_momentum_l(speed)
+        if (dir == "r")
+          return this.set_momentum_r(speed)
+        if (dir == "u" || dir == "j")
+          return this.set_momentum_u(speed)
+        if (dir == "d")
+          return this.set_momentum_d(speed)
+      },
+      set_momentum_l: function(speed)
+      {
+        this.flags.facing_left = true
+        this.momentum_x = floor(speed - 1)
+        this.add_momentum_l()
+      },
+      set_momentum_r: function(speed)
+      {
+        this.flags.facing_left = false
+        this.momentum_x = floor(speed - 1)
+        this.add_momentum_r()
+      },
+      set_momentum_u: function(speed)
+      {
+        this.momentum_y = floor(speed)
+      },
+      set_momentum_d: function(speed)
+      {
+        this.momentum_y = -floor(speed)
+      },
+    })
+
+    $.extend(this, {
+      center: function()
+      {
+        return {
+          x: (this.xw/2) + this.x,
+          y: (this.yh/2) + this.y,
+        }
+      },
+      collidables: function()
+      {
+        var result = [];
+        for (var i = 0; i < this.layer.all_physics.length; i++)
+        {
+          var other = this.layer.all_physics[i]
+
+          if (   other == this
+             ||  other == this.owner
+             || !other.flags.solid
+             )
+          {
+            continue;
+          }
+
+          result.push(other);
+        }
+
+        return result;
+      },
       is_collide: function(full)
       {
         full = !!full
