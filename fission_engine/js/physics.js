@@ -39,6 +39,7 @@
       ai: null,
 
       deferred: $.Deferred(),
+      events: new Events(),
 
       flags: {
         facing_left: false,
@@ -660,6 +661,14 @@
           min_momentum_y: false,
           max_momentum_y: false,
         }
+
+        $.each(pos_info, function(k, v)
+        {
+          if (v)
+          {
+            self.events.emit(k, self);
+          }
+        });
 
         if (this.ai != undefined)
         {
