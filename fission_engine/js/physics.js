@@ -293,12 +293,10 @@
         var xmin = this.x, xmax = this.x + this.xw;
         var ymin = this.y, ymax = this.y + this.yh;
 
-        for (var i = 0; i < this.layer.all_physics.length; i++)
+        var colid = this.collidables();
+        for (var i = 0; i < colid.length; i++)
         {
-          if (this.layer.all_physics[i] == this || this.layer.all_physics[i] == this.owner || !this.layer.all_physics[i].flags.solid)
-            continue;
-
-          var other = this.layer.all_physics[i]
+          var other = colid[i]
 
           if ( ( other.x < xmax && other.x + other.xw > xmin )
             && ( other.y < ymax && other.y + other.yh > ymin))
@@ -306,7 +304,7 @@
             if (full)
               all_colide.push(other)
             else
-              return true;
+              return other;
           }
         }
         if (full)
@@ -353,6 +351,7 @@
           hit_wall: false,
           hit_floor: false,
           hit_ceiling: false,
+          hit_side: false,
         }
 
         var orig_x = this.x
@@ -422,9 +421,14 @@
           }
 
           // Then check collision. Collision means they've hit a wall
-          if (self.is_collide())
+          var is_collide = self.is_collide();
+          if (is_collide)
           {
-            result.hit_wall = true
+            result.hit_side = true
+            if (is_collide === true)
+            {
+              result.hit_wall = true
+            }
             break;
           }
         }
@@ -580,7 +584,7 @@
             this.momentum_x += this.next_frame.momentum_x
           }
 
-          if (pos_info.hit_wall)
+          if (pos_info.hit_side)
           {
             this.momentum_x = 0
           }
