@@ -61,15 +61,15 @@
           var x = anim.frame_x
           var y = anim.frame_y
 
+          if (x == undefined && anim.tile_x != undefined)
+            x = (anim.tile_x - cou.x) * runtime.tiles.tiles_xw
+          if (y == undefined && anim.tile_y != undefined)
+            y = (anim.tile_y - cou.y) * runtime.tiles.tiles_yh
+
           if (x == undefined)
             x = anim.x - cou.x
           if (y == undefined)
             y = anim.y - cou.y
-
-          if (x == undefined)
-            x = (anim.tile_x - cou.x) * runtime.tiles.tiles_xw
-          if (y == undefined)
-            y = (anim.tile_y - cou.y) * runtime.tiles.tiles_yh
 
           if (!img)
             return;

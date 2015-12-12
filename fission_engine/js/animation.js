@@ -19,8 +19,8 @@
       frame_y: null,
       x: 0,
       y: 0,
-      tile_x: 0,
-      tile_y: 0,
+      tile_x: null,
+      tile_y: null,
 
       is_tile_sized: false,
       xw: 1,

@@ -7,6 +7,7 @@
       active_input: true,
       bg: null,
 
+      get_animations: function() { return this.all_animations },
       all_animations: [],
       chunks: null,
       all_physics: [],
@@ -74,13 +75,14 @@
       var context = stage.context
       var tiles = runtime.tiles
 
-      for (var anim_obj in self.all_animations)
+      var animations = self.get_animations();
+      for (var i in animations)
       {
         context.save()
 
         try
         {
-          var anim = self.all_animations[anim_obj]
+          var anim = animations[i]
           stage.draw_animation(anim, cou)
         }
         catch (e)

@@ -53,7 +53,13 @@
       this.data[this.idx] = s
       this.lfsr = lfsr;
 
-      return this.data[this.idx]
+      var result = this.data[this.idx]
+      if (multi)
+      {
+        result = (result * 1/mod) * multi
+      }
+
+      return result
     }
 
     this.choose = function()

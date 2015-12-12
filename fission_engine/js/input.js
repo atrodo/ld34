@@ -206,7 +206,7 @@ function Input(options)
 {
   $.extend(true, this, {
     layer: null,
-    default_actions: true,
+    default_actions: false,
     default_adv_actions: false,
     active: true,
   }, options);

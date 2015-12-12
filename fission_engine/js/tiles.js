@@ -177,7 +177,7 @@
       {
         self.background = gfx;
       }),
-      new Gfx().preload(self.background, false).then(function(gfx)
+      new Gfx().preload(self.foreground, false).then(function(gfx)
       {
         self.foreground = gfx;
       })

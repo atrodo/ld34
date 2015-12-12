@@ -216,8 +216,20 @@
       {
         x: chunk.meta.chunk_x,
         y: chunk.meta.chunk_y,
-        fg: scratch_fg,
-        bg: scratch_bg,
+        bg: new Animation({
+          xw: xw,
+          yh: yh,
+          tile_x: chunk.meta.chunk_x,
+          tile_y: chunk.meta.chunk_y,
+          gfx: scratch_bg,
+        }),
+        fg: new Animation({
+          xw: xw,
+          yh: yh,
+          tile_x: chunk.meta.chunk_x,
+          tile_y: chunk.meta.chunk_y,
+          gfx: scratch_fg,
+        }),
       }
     }
 
@@ -283,4 +295,27 @@
 
     engine.events.on('runtime.maintaince', paint_chunks);
     engine.events.on('loader.paint_one_chunk', paint_one);
+
+    var bg_layer;
+    var fg_layer;
+    engine.events.on('start_runtime', function()
+    {
+      if (bg_layer != null)
+      {
+        return
+      }
+
+      bg_layer = runtime.add_layer('chunks.bg', {
+        get_animations: function()
+        {
+          return $.map(loaded_chunks, function(v) { return v.bg });
+        }
+      });
+      fg_layer = runtime.add_layer('chunks.fg', {
+        get_animations: function()
+        {
+          return $.map(loaded_chunks, function(v) { return v.fg });
+        }
+      });
+    });
   [% END %]
