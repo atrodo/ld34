@@ -223,6 +223,10 @@
       collidables: function()
       {
         var result = [];
+
+        if (this.layer == null)
+          return result;
+
         for (var i = 0; i < this.layer.all_physics.length; i++)
         {
           var other = this.layer.all_physics[i]
@@ -424,7 +428,7 @@
           var is_collide = self.is_collide();
           if (is_collide)
           {
-            result.hit_side = true
+            result.hit_side = is_collide
             if (is_collide === true)
             {
               result.hit_wall = true
@@ -670,7 +674,7 @@
         {
           if (v)
           {
-            self.events.emit(k, self);
+            self.events.emit(k, self, v);
           }
         });
 
