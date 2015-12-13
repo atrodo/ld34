@@ -141,6 +141,34 @@
         })
       }
 
+      self.color_linear = function(low, high, percent)
+      {
+        if ($.isArray(low))
+        {
+          low = { r: low[0], g: low[1], b: low[2] };
+        }
+
+        if ($.isArray(high))
+        {
+          high = { r: high[0], g: high[1], b: high[2] };
+        }
+        var m = {
+          r: (high.r - low.r),
+          g: (high.g - low.g),
+          b: (high.b - low.b),
+        }
+
+        var result = [
+          'rgb(',
+            (m.r * percent + low.r) | 0, ',',
+            (m.g * percent + low.g) | 0, ',',
+            (m.b * percent + low.b) | 0,
+          ')',
+        ].join('')
+
+        return result
+      }
+
       self.preload = function(url, do_flip)
       {
         if (do_flip == undefined)
