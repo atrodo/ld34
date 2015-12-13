@@ -3,33 +3,6 @@
     var listeners = {}
     var self = this;
 
-    var run_apply = function(cb, args)
-    {
-      try
-      {
-        if (cb instanceof Cooldown)
-        {
-          // Cooldown returns itself or a function
-          var cd = cb.frame()
-
-          if (cd != cb)
-          {
-            cb.reset()
-            cb = cd
-          }
-        }
-
-        if ($.isFunction(cb))
-        {
-          return cb.apply(self, args)
-        }
-      }
-      catch(e)
-      {
-        warn(e);
-      }
-    }
-
     $.extend(this, {
       on: function(type, cb)
       {
@@ -84,10 +57,44 @@
           listeners[type] = []
 
         var args = Array.prototype.slice.call(arguments, 1)
-        var cbs = listeners[type].slice()
-        while (cbs.length > 0)
+        var cbs = listeners[type]
+        for (var i in cbs)
         {
-          result.push(run_apply(cbs.shift(), args))
+          var to_push;
+          try
+          {
+            if (cbs[i] instanceof Cooldown)
+            {
+              // Cooldown returns itself or a function
+              cbs[i] = cbs[i].frame();
+            }
+
+            var cb = cbs[i];
+
+            if ($.isFunction(cb))
+            {
+              to_push = cb.apply(self, args)
+            }
+          }
+          catch(e)
+          {
+            if (e instanceof Cooldown)
+            {
+              to_push = e
+            }
+            else
+            {
+              warn(e);
+            }
+          }
+
+          if (to_push instanceof Cooldown)
+          {
+            to_push.result = cbs[i];
+            cbs[i] = to_push;
+          }
+
+          result.push(to_push);
         }
 
         return result
