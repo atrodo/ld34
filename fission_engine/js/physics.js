@@ -474,6 +474,19 @@
         return result
       },
 
+      move_to: function(x, y, keep_momentum)
+      {
+        if (!keep_momentum)
+        {
+          this.momentum_y = 0
+          this.momentum_x = 0
+          this.current_j  = 0
+        }
+        this.x = x
+        this.y = y
+        this.set_pos()
+      },
+
       frame: function()
       {
         var self = this
