@@ -56,7 +56,7 @@
 
         try
         {
-          var img = anim.get_gfx()
+          var img = anim.get_gfx(cou)
 
           var x = anim.frame_x
           var y = anim.frame_y
