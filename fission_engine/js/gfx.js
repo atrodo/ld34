@@ -69,7 +69,7 @@
           if (y == undefined && anim.tile_y != undefined)
           {
             y = (anim.tile_y - cou.y) * runtime.tiles.tiles_yh
-            y += runtime.height * (1/2)
+            y += runtime.height * (1/4)
           }
 
           if (x == undefined)
