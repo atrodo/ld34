@@ -111,8 +111,8 @@
         if (cb == undefined)
           throw new Error("You cannot remove all listeners on an event")
 
-        if (!$.isFunction(cb))
-          throw new Error("You must pass a listener to Event.off")
+        //if (!$.isFunction(cb) && !(cb instanceof Cooldown))
+        //  throw new Error("You must pass a listener to Event.off")
 
         var index = listeners[type].indexOf(cb)
         if (index != undefined && index >= 0)
